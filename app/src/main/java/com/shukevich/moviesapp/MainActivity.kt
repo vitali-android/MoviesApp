@@ -1,11 +1,11 @@
 package com.shukevich.moviesapp
 
-import android.content.Intent
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.shukevich.moviesapp.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieListListener, FragmentMoviesDetails.MovieDetailListener {
 
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,13 +13,22 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.tvMainActivity.setOnClickListener{
-            movieToMovieDetails()
-        }
+        supportFragmentManager.beginTransaction()
+            .add(R.id.main_container,FragmentMoviesList())
+            .commit()
+
+
     }
 
-    private fun movieToMovieDetails() {
-        val intent = Intent(this, MovieDetailsActivity::class.java)
-        startActivity(intent)
+    override fun toMovieDetail() {
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .add(R.id.main_container,FragmentMoviesDetails())
+            .commit()
+    }
+
+    override fun toMoviesList() {
+        supportFragmentManager.popBackStack()
     }
 }
+
