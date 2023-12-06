@@ -6,7 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.HorizontalScrollView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.shukevich.moviesapp.databinding.FragmentMoviesDetailsBinding
+import com.shukevich.moviesapp.domain.ActorsDataSource
 
 
 class FragmentMoviesDetails : Fragment() {
@@ -28,6 +32,21 @@ class FragmentMoviesDetails : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+            rcActors.adapter = ActorsAdapter()
+            rcActors.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false )
+            updateData()
+        }
+    }
+
+    private fun updateData()= with(binding) {
+        (rcActors.adapter as ActorsAdapter).apply {
+            bindActors(ActorsDataSource().getActors())
+        }
     }
 
     override fun onAttach(context: Context) {

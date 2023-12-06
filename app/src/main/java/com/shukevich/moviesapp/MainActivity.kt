@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.shukevich.moviesapp.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieListListener, FragmentMoviesDetails.MovieDetailListener {
+class MainActivity : AppCompatActivity(), FragmentMoviesList.MoviesListListener, FragmentMoviesDetails.MovieDetailListener {
 
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
