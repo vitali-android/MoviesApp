@@ -1,12 +1,11 @@
 package com.shukevich.moviesapp.data
 
 import android.content.Context
-import com.android.academy.fundamentals.homework.model.Actor
-import com.android.academy.fundamentals.homework.model.Genre
-import com.android.academy.fundamentals.homework.model.Movie
+import com.shukevich.moviesapp.model.Actor
+import com.shukevich.moviesapp.model.Genre
+import com.shukevich.moviesapp.model.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 interface MovieRepository {
