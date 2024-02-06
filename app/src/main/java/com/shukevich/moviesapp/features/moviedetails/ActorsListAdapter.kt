@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import  com.shukevich.moviesapp.R
+import com.shukevich.moviesapp.databinding.ViewHolderActorBinding
 import  com.shukevich.moviesapp.model.Actor
 
 class ActorsListAdapter : ListAdapter<Actor, ActorsListAdapter.ViewHolder>(DiffCallback()) {
@@ -29,10 +30,9 @@ class ActorsListAdapter : ListAdapter<Actor, ActorsListAdapter.ViewHolder>(DiffC
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val actorImage: ImageView = itemView.findViewById(R.id.actor_image)
-        private val actorName: TextView = itemView.findViewById(R.id.actor_name)
+        private val binding = ViewHolderActorBinding.bind(itemView)
 
-        fun bind(item: Actor) {
+        fun bind(item: Actor)= with(binding) {
             actorImage.load(item.imageUrl)
             actorName.text = item.name
         }

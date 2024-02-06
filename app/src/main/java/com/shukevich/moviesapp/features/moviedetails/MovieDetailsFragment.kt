@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.shukevich.moviesapp.R
+import com.shukevich.moviesapp.databinding.FragmentMovieDetailsBinding
 import com.shukevich.moviesapp.di.MovieRepositoryProvider
 import com.shukevich.moviesapp.model.Movie
 import kotlinx.coroutines.launch
@@ -26,6 +27,8 @@ import kotlinx.coroutines.launch
 class MovieDetailsFragment : Fragment() {
 
     private var listener: MovieDetailsBackClickListener? = null
+    private var _binding: FragmentMovieDetailsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,8 +43,13 @@ class MovieDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        return inflater.inflate(R.layout.fragment_movie_details, container, false)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,14 +57,14 @@ class MovieDetailsFragment : Fragment() {
 
         val movieId = arguments?.getSerializable(PARAM_MOVIE_ID) as? Int ?: return
 
-        view.findViewById<RecyclerView>(R.id.recycler_movies).apply {
+        binding.recyclerMovies.apply {
 
             this.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
 
             this.adapter = ActorsListAdapter()
         }
 
-        view.findViewById<View>(R.id.back_button_layout)?.setOnClickListener {
+        binding.backButtonLayout.setOnClickListener {
             listener?.onMovieDeselected()
         }
         lifecycleScope.launch {
@@ -79,7 +87,7 @@ class MovieDetailsFragment : Fragment() {
     private fun bindUI(view: View, movie: Movie) {
         updateMovieDetailsInfo(movie)
         val adapter =
-            view.findViewById<RecyclerView>(R.id.recycler_movies).adapter as ActorsListAdapter
+            binding.recyclerMovies.adapter as ActorsListAdapter
         adapter.submitList(movie.actors)
     }
 
@@ -89,26 +97,25 @@ class MovieDetailsFragment : Fragment() {
         super.onDetach()
     }
 
-    private fun updateMovieDetailsInfo(movie: Movie) {
-        view?.findViewById<ImageView>(R.id.movie_logo_image)?.load(movie.detailImageUrl)
+    private fun updateMovieDetailsInfo(movie: Movie) = with(binding) {
 
-        view?.findViewById<TextView>(R.id.movie_age_restrictions_text)?.text =
+        movieLogoImage.load(movie.detailImageUrl)
+        movieAgeRestrictionsText.text =
             context?.getString(R.string.movies_list_allowed_age_template, movie.pgAge)
-
-        view?.findViewById<TextView>(R.id.movie_name_text)?.text = movie.title
-        view?.findViewById<TextView>(R.id.movie_tags_text)?.text =
-            movie.genres.joinToString { it.name }
-        view?.findViewById<TextView>(R.id.movie_reviews_count_text)?.text =
+        movieNameText.text = movie.title
+        movieTagsText.text = movie.genres.joinToString { it.name }
+        movieReviewsCountText.text =
             context?.getString(R.string.movies_list_reviews_template, movie.reviewCount)
-        view?.findViewById<TextView>(R.id.movie_storyline_text)?.text = movie.storyLine
+        movieStorylineText.text = movie.storyLine
 
         val starsImages = listOf<ImageView?>(
-            view?.findViewById(R.id.star1_image),
-            view?.findViewById(R.id.star2_image),
-            view?.findViewById(R.id.star3_image),
-            view?.findViewById(R.id.star4_image),
-            view?.findViewById(R.id.star5_image)
+            star1Image,
+            star2Image,
+            star3Image,
+            star4Image,
+            star5Image
         )
+        
         starsImages.forEachIndexed { index, imageView ->
             imageView?.let {
                 val colorId =

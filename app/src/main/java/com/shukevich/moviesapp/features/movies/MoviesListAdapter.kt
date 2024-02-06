@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.shukevich.moviesapp.R
+import com.shukevich.moviesapp.databinding.ViewHolderMovieBinding
 import com.shukevich.moviesapp.model.Movie
 
 class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
@@ -32,33 +33,28 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = ViewHolderMovieBinding.bind(itemView)
 
-        private val movieImage: ImageView = itemView.findViewById(R.id.movie_image)
-        private val likeImage: ImageView = itemView.findViewById(R.id.movie_like_image)
-        private val pgText: TextView = itemView.findViewById(R.id.pg_text)
-        private val genreText: TextView = itemView.findViewById(R.id.film_genre_text)
         private val starsImages: List<ImageView> = listOf(
-            itemView.findViewById(R.id.star1_image),
-            itemView.findViewById(R.id.star2_image),
-            itemView.findViewById(R.id.star3_image),
-            itemView.findViewById(R.id.star4_image),
-            itemView.findViewById(R.id.star5_image)
+            binding.star1Image,
+            binding.star2Image,
+            binding.star3Image,
+            binding.star4Image,
+            binding.star5Image
         )
-        private val reviewsText: TextView = itemView.findViewById(R.id.movie_reviews_count_text)
-        private val titleText: TextView = itemView.findViewById(R.id.film_name_text)
-        private val movieLenText: TextView = itemView.findViewById(R.id.film_time_text)
+
 
         fun bind(item: Movie, onClickCard: (item: Movie) -> Unit) {
-            movieImage.load(item.imageUrl)
+            binding.movieImage.load(item.imageUrl)
 
             val context = itemView.context
-            pgText.text =
+            binding.pgText.text =
                 context.getString(R.string.movies_list_allowed_age_template, item.pgAge)
-            genreText.text = item.genres.joinToString { it.name }
-            reviewsText.text =
+            binding.filmGenreText .text = item.genres.joinToString { it.name }
+            binding.movieReviewsCountText .text =
                 context.getString(R.string.movies_list_reviews_template, item.reviewCount)
-            titleText.text = item.title
-            movieLenText.text = context.getString(R.string.movies_list_film_time, item.runningTime)
+            binding.filmNameText.text = item.title
+            binding.filmTimeText .text = context.getString(R.string.movies_list_film_time, item.runningTime)
 
             val likeColor = if (item.isLiked) {
                 R.color.pink_light
@@ -66,8 +62,8 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
                 R.color.color_white
             }
             ImageViewCompat.setImageTintList(
-                likeImage, ColorStateList.valueOf(
-                    ContextCompat.getColor(likeImage.context, likeColor)
+                binding.movieLikeImage, ColorStateList.valueOf(
+                    ContextCompat.getColor(binding.movieLikeImage.context, likeColor)
                 )
             )
 

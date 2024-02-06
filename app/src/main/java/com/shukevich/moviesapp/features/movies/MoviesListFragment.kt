@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shukevich.moviesapp.R
+import com.shukevich.moviesapp.databinding.FragmentMoviesListBinding
 import com.shukevich.moviesapp.di.MovieRepositoryProvider
 import com.shukevich.moviesapp.model.Movie
 import kotlinx.coroutines.launch
@@ -18,6 +19,9 @@ import kotlinx.coroutines.launch
 class MoviesListFragment : Fragment() {
 
     private var listener: MoviesListItemClickListener? = null
+
+    private var _binding: FragmentMoviesListBinding? = null
+    private val binding get() = _binding!!
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -32,15 +36,14 @@ class MoviesListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return inflater.inflate(R.layout.fragment_movies_list, container, false)
+        _binding = FragmentMoviesListBinding.inflate(inflater, container, false)
+        return binding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        view.findViewById<RecyclerView>(R.id.recycler_movies).apply {
+        binding.recyclerMovies.apply {
             this.layoutManager = GridLayoutManager(this.context, 2)
 
             val adapter = MoviesListAdapter { movieData ->
@@ -49,8 +52,8 @@ class MoviesListFragment : Fragment() {
 
             this.adapter = adapter
 
-            loadDataToAdapter(adapter)
-        }
+            loadDataToAdapter(adapter)  }
+
     }
 
     private fun loadDataToAdapter(adapter: MoviesListAdapter) {
@@ -66,6 +69,11 @@ class MoviesListFragment : Fragment() {
         listener = null
 
         super.onDetach()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     interface MoviesListItemClickListener {

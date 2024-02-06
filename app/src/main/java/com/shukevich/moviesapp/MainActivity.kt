@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.shukevich.moviesapp.data.JsonMovieRepository
 import com.shukevich.moviesapp.data.MovieRepository
+import com.shukevich.moviesapp.databinding.ActivityMainBinding
 import com.shukevich.moviesapp.di.MovieRepositoryProvider
 import com.shukevich.moviesapp.features.moviedetails.MovieDetailsFragment
 import com.shukevich.moviesapp.features.movies.MoviesListFragment
@@ -16,10 +17,12 @@ class MainActivity : AppCompatActivity(),
     MovieRepositoryProvider {
 
     private val jsonMovieRepository = JsonMovieRepository(this)
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         if (savedInstanceState == null) {
             routeToMoviesList()
