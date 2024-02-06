@@ -33,6 +33,7 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         private val binding = ViewHolderMovieBinding.bind(itemView)
 
         private val starsImages: List<ImageView> = listOf(
@@ -44,17 +45,14 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
         )
 
 
-        fun bind(item: Movie, onClickCard: (item: Movie) -> Unit) {
-            binding.movieImage.load(item.imageUrl)
-
+        fun bind(item: Movie, onClickCard: (item: Movie) -> Unit) = with(binding) {
             val context = itemView.context
-            binding.pgText.text =
-                context.getString(R.string.movies_list_allowed_age_template, item.pgAge)
-            binding.filmGenreText .text = item.genres.joinToString { it.name }
-            binding.movieReviewsCountText .text =
-                context.getString(R.string.movies_list_reviews_template, item.reviewCount)
-            binding.filmNameText.text = item.title
-            binding.filmTimeText .text = context.getString(R.string.movies_list_film_time, item.runningTime)
+            movieImage.load(item.imageUrl)
+            pgText.text = context.getString(R.string.movies_list_allowed_age_template, item.pgAge)
+            filmGenreText .text = item.genres.joinToString { it.name }
+            movieReviewsCountText .text = context.getString(R.string.movies_list_reviews_template, item.reviewCount)
+            filmNameText.text = item.title
+            filmTimeText .text = context.getString(R.string.movies_list_film_time, item.runningTime)
 
             val likeColor = if (item.isLiked) {
                 R.color.pink_light
@@ -62,8 +60,8 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
                 R.color.color_white
             }
             ImageViewCompat.setImageTintList(
-                binding.movieLikeImage, ColorStateList.valueOf(
-                    ContextCompat.getColor(binding.movieLikeImage.context, likeColor)
+                movieLikeImage, ColorStateList.valueOf(
+                    ContextCompat.getColor(movieLikeImage.context, likeColor)
                 )
             )
 
