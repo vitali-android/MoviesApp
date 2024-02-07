@@ -17,6 +17,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.shukevich.moviesapp.R
 import com.shukevich.moviesapp.databinding.FragmentMovieDetailsBinding
 import com.shukevich.moviesapp.di.MovieRepositoryProvider
@@ -30,6 +32,10 @@ class MovieDetailsFragment : Fragment() {
     private var _binding: FragmentMovieDetailsBinding? = null
     private val binding get() = _binding!!
 
+    private val imageOption = RequestOptions()
+        .placeholder(R.drawable.ic_movieholder)
+        .fallback(R.drawable.ic_movieholder)
+        .centerCrop()
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -99,7 +105,12 @@ class MovieDetailsFragment : Fragment() {
 
     private fun updateMovieDetailsInfo(movie: Movie) = with(binding) {
 
-        movieLogoImage.load(movie.detailImageUrl)
+//        movieLogoImage.load(movie.detailImageUrl)
+        Glide.with(context)
+            .load(movie.detailImageUrl)
+            .apply(imageOption)
+            .into(movieLogoImage)
+
         movieAgeRestrictionsText.text =
             context?.getString(R.string.movies_list_allowed_age_template, movie.pgAge)
         movieNameText.text = movie.title

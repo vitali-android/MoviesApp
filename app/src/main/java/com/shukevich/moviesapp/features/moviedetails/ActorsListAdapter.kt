@@ -3,17 +3,22 @@ package com.shukevich.moviesapp.features.moviedetails
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import  com.shukevich.moviesapp.R
 import com.shukevich.moviesapp.databinding.ViewHolderActorBinding
 import  com.shukevich.moviesapp.model.Actor
 
 class ActorsListAdapter : ListAdapter<Actor, ActorsListAdapter.ViewHolder>(DiffCallback()) {
+
+    private val imageOption = RequestOptions()
+        .placeholder(R.drawable.ic_actor_placeholder)
+        .fallback(R.drawable.ic_actor_placeholder)
+        .centerCrop()
+//        .circleCrop()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -24,7 +29,7 @@ class ActorsListAdapter : ListAdapter<Actor, ActorsListAdapter.ViewHolder>(DiffC
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(imageOption,item)
     }
 
 
@@ -32,8 +37,13 @@ class ActorsListAdapter : ListAdapter<Actor, ActorsListAdapter.ViewHolder>(DiffC
 
         private val binding = ViewHolderActorBinding.bind(itemView)
 
-        fun bind(item: Actor)= with(binding) {
-            actorImage.load(item.imageUrl)
+        fun bind(options: RequestOptions,item: Actor)= with(binding) {
+            val context = itemView.context
+            Glide.with(context)
+                .load(item.imageUrl)
+                .apply(options)
+                .into(actorImage)
+
             actorName.text = item.name
         }
     }
@@ -48,3 +58,4 @@ class ActorsListAdapter : ListAdapter<Actor, ActorsListAdapter.ViewHolder>(DiffC
         }
     }
 }
+

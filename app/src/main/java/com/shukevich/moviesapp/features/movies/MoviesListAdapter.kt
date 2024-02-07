@@ -13,12 +13,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.shukevich.moviesapp.R
 import com.shukevich.moviesapp.databinding.ViewHolderMovieBinding
 import com.shukevich.moviesapp.model.Movie
 
 class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
     ListAdapter<Movie, MoviesListAdapter.ViewHolder>(DiffCallback()) {
+
+    private val imageOption = RequestOptions()
+        .placeholder(R.drawable.ic_movieholder)
+        .fallback(R.drawable.ic_movieholder)
+        .centerCrop()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -29,7 +36,7 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item, onClickCard)
+        holder.bind(imageOption,item, onClickCard)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -45,9 +52,15 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
         )
 
 
-        fun bind(item: Movie, onClickCard: (item: Movie) -> Unit) = with(binding) {
+        fun bind(options: RequestOptions, item: Movie, onClickCard: (item: Movie) -> Unit) = with(binding) {
             val context = itemView.context
-            movieImage.load(item.imageUrl)
+
+            Glide.with(context)
+                .load(item.imageUrl)
+                .apply(options)
+                .into(movieImage)
+//            movieImage.load(item.imageUrl)
+
             pgText.text = context.getString(R.string.movies_list_allowed_age_template, item.pgAge)
             filmGenreText .text = item.genres.joinToString { it.name }
             movieReviewsCountText .text = context.getString(R.string.movies_list_reviews_template, item.reviewCount)
@@ -90,8 +103,9 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
             return oldItem == newItem
         }
     }
-
 }
+
+
 
 
 
