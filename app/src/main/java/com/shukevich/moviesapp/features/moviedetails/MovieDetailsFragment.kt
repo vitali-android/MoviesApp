@@ -64,9 +64,7 @@ class MovieDetailsFragment : Fragment() {
         val movieId = arguments?.getSerializable(PARAM_MOVIE_ID) as? Int ?: return
 
         binding.recyclerMovies.apply {
-
             this.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-
             this.adapter = ActorsListAdapter()
         }
 
@@ -118,26 +116,9 @@ class MovieDetailsFragment : Fragment() {
         movieReviewsCountText.text =
             context?.getString(R.string.movies_list_reviews_template, movie.reviewCount)
         movieStorylineText.text = movie.storyLine
+        ratingBarDetails.rating = movie.rating.toFloat()
 
-        val starsImages = listOf<ImageView?>(
-            star1Image,
-            star2Image,
-            star3Image,
-            star4Image,
-            star5Image
-        )
-        
-        starsImages.forEachIndexed { index, imageView ->
-            imageView?.let {
-                val colorId =
-                    if (movie.rating > index) R.color.pink_light else R.color.gray_dark
-                ImageViewCompat.setImageTintList(
-                    imageView, ColorStateList.valueOf(
-                        ContextCompat.getColor(imageView.context, colorId)
-                    )
-                )
-            }
-        }
+
     }
 
     interface MovieDetailsBackClickListener {

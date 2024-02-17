@@ -43,15 +43,6 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
 
         private val binding = ViewHolderMovieBinding.bind(itemView)
 
-        private val starsImages: List<ImageView> = listOf(
-            binding.star1Image,
-            binding.star2Image,
-            binding.star3Image,
-            binding.star4Image,
-            binding.star5Image
-        )
-
-
         fun bind(options: RequestOptions, item: Movie, onClickCard: (item: Movie) -> Unit) = with(binding) {
             val context = itemView.context
 
@@ -66,6 +57,7 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
             movieReviewsCountText .text = context.getString(R.string.movies_list_reviews_template, item.reviewCount)
             filmNameText.text = item.title
             filmTimeText .text = context.getString(R.string.movies_list_film_time, item.runningTime)
+            ratingBarMovie.rating = item.rating.toFloat()
 
             val likeColor = if (item.isLiked) {
                 R.color.pink_light
@@ -78,15 +70,6 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
                 )
             )
 
-            //set stars tint
-            starsImages.forEachIndexed { index, imageView ->
-                val colorId = if (item.rating > index) R.color.pink_light else R.color.gray_dark
-                ImageViewCompat.setImageTintList(
-                    imageView, ColorStateList.valueOf(
-                        ContextCompat.getColor(imageView.context, colorId)
-                    )
-                )
-            }
 
             itemView.setOnClickListener {
                 onClickCard(item)

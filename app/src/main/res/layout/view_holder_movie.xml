@@ -66,73 +66,29 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:text="Action, Fiction" />
 
-    <ImageView
-        android:id="@+id/star1_image"
-        android:layout_width="@dimen/movies_list_rating_star_icon_space"
+    <RatingBar
+        android:id="@+id/rating_bar_movie"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/spacing_2x"
-        android:padding="@dimen/spacing_0_5x"
-        android:src="@drawable/ic_star"
-        app:layout_constraintBottom_toBottomOf="@+id/movie_reviews_count_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/movie_reviews_count_text"
-        app:tint="@color/pink_light"
-        tools:ignore="ContentDescription" />
+        android:isIndicator="true"
+        android:numStars="5"
 
-    <ImageView
-        android:id="@+id/star2_image"
-        android:layout_width="@dimen/movies_list_rating_star_icon_space"
-        android:layout_height="0dp"
-        android:padding="@dimen/spacing_0_5x"
-        android:src="@drawable/ic_star"
-        app:layout_constraintBottom_toBottomOf="@+id/star1_image"
-        app:layout_constraintStart_toEndOf="@+id/star1_image"
-        app:layout_constraintTop_toTopOf="@+id/star1_image"
-        app:tint="@color/pink_light"
-        tools:ignore="ContentDescription" />
+        android:rating="4"
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        android:theme="@style/MyRatingBar"
 
-    <ImageView
-        android:id="@+id/star3_image"
-        android:layout_width="@dimen/movies_list_rating_star_icon_space"
-        android:layout_height="0dp"
-        android:padding="@dimen/spacing_0_5x"
-        android:src="@drawable/ic_star"
-        app:layout_constraintBottom_toBottomOf="@+id/star1_image"
-        app:layout_constraintStart_toEndOf="@+id/star2_image"
-        app:layout_constraintTop_toTopOf="@+id/star1_image"
-        app:tint="@color/pink_light"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintBottom_toBottomOf="@+id/movie_image"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/star4_image"
-        android:layout_width="@dimen/movies_list_rating_star_icon_space"
-        android:layout_height="0dp"
-        android:padding="@dimen/spacing_0_5x"
-        android:src="@drawable/ic_star"
-        app:layout_constraintBottom_toBottomOf="@+id/star1_image"
-        app:layout_constraintStart_toEndOf="@+id/star3_image"
-        app:layout_constraintTop_toTopOf="@+id/star1_image"
-        app:tint="@color/pink_light"
-        tools:ignore="ContentDescription" />
 
-    <ImageView
-        android:id="@+id/star5_image"
-        android:layout_width="@dimen/movies_list_rating_star_icon_space"
-        android:layout_height="0dp"
-        android:padding="@dimen/spacing_0_5x"
-        android:src="@drawable/ic_star"
-        app:layout_constraintBottom_toBottomOf="@+id/star1_image"
-        app:layout_constraintStart_toEndOf="@+id/star4_image"
-        app:layout_constraintTop_toTopOf="@+id/star1_image"
-        app:tint="@color/gray_dark"
-        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/movie_reviews_count_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_2x"
-        android:layout_marginBottom="@dimen/spacing_2x"
+        android:layout_marginBottom="@dimen/spacing_0_5x"
         android:gravity="center_vertical|start"
         android:textAllCaps="true"
         android:textColor="@color/gray_dark"
@@ -140,7 +96,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/movie_image"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/star5_image"
+        app:layout_constraintStart_toEndOf="@+id/rating_bar_movie"
         tools:text="125 Reviews" />
 
     <TextView

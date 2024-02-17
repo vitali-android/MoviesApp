@@ -18,7 +18,6 @@ class ActorsListAdapter : ListAdapter<Actor, ActorsListAdapter.ViewHolder>(DiffC
         .placeholder(R.drawable.ic_actor_placeholder)
         .fallback(R.drawable.ic_actor_placeholder)
         .centerCrop()
-//        .circleCrop()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
